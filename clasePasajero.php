@@ -6,99 +6,101 @@ include_once("claseViaje.php");
 include_once("claseEmpresa.php");
 class Pasajero
 {
-  private $pnombre;
-  private $papellido;
-  private $pdocumento;
-  private $ptelefono;
-  private $idviaje;
-  private $mensajeoperacion;
+  private $pNombre;
+  private $pApellido;
+  private $pDocumento;
+  private $pTelefono;
+  private $idViaje;
+  private $mensajeOperacion;
 
   public function __construct()
   {
 
-    $this->pdocumento = "";
-    $this->pnombre = "";
-    $this->papellido = "";
-    $this->ptelefono = "";
-    $this->idviaje = "";
+    $this->pDocumento = "";
+    $this->pNombre = "";
+    $this->pApellido = "";
+    $this->pTelefono = "";
+    $this->idViaje = "";
   }
 
-  public function setpnombre($pnombre)
+  public function setpNombre($pNombre)
   {
-    $this->pnombre = $pnombre;
+    $this->pNombre = $pNombre;
   }
 
-  public function getpnombre()
+  public function getpNombre()
   {
-    return $this->pnombre;
+    return $this->pNombre;
   }
 
-  public function setpapellido($papellido)
+  public function setpApellido($pApellido)
   {
-    $this->papellido = $papellido;
+    $this->pApellido = $pApellido;
   }
 
-  public function getpapellido()
+  public function getpApellido()
   {
-    return $this->papellido;
+    return $this->pApellido;
   }
 
-  public function setpdocumento($pdocumento)
+  public function setpDocumento($pDocumento)
   {
-    $this->pdocumento = $pdocumento;
+    $this->pDocumento = $pDocumento;
   }
 
-  public function getpdocumento()
+  public function getpDocumento()
   {
-    return $this->pdocumento;
+    return $this->pDocumento;
   }
 
-  public function setptelefono($ptelefono)
+  public function setpTelefono($pTelefono)
   {
-    $this->ptelefono = $ptelefono;
+    $this->pTelefono = $pTelefono;
   }
 
-  public function getptelefono()
+  public function getpTelefono()
   {
-    return $this->ptelefono;
+    return $this->pTelefono;
   }
 
-  public function setidviaje($idviaje)
+  public function setIDViaje($idViaje)
   {
-    $this->idviaje = $idviaje;
+    $this->idViaje = $idViaje;
   }
 
-  public function getidviaje()
+  public function getIDViaje()
   {
-    return $this->idviaje;
+    return $this->idViaje;
   }
 
-  public function setmensajeoperacion($mensajeoperacion)
+  public function setMensajeOperacion($mensajeOperacion)
   {
-    $this->mensajeoperacion = $mensajeoperacion;
+    $this->mensajeOperacion = $mensajeOperacion;
   }
 
-  public function getmensajeoperacion()
+  public function getMensajeOperacion()
   {
-    return $this->mensajeoperacion;
+    return $this->mensajeOperacion;
   }
 
   public function __toString()
   {
     return
-      "\nNombre: " . $this->getpnombre() . " " . $this->getpapellido() .
-      "\nDNI N° " . $this->getpdocumento() .
-      "\nTeléfono N° " . $this->getptelefono() .
-      "\nID del viaje: " . $this->getidviaje() . "\n";
+      "\n-----PASAJERO----" .
+      "\nNombre: " . $this->getpNombre() .
+      "\nApellido: " . $this->getpApellido() .
+      "\nDNI N° " . $this->getpDocumento() .
+      "\nTeléfono N° " . $this->getpTelefono() .
+      "\nAsociado al viaje N° " . $this->getIDViaje() . "\n";
   }
 
-  public function cargar($documento, $nombre, $apellido, $telefono, $idviaje)
+  public function cargar($documento, $nombre, $apellido, $telefono, $idViaje)
   {
-    $this->setpdocumento($documento);
-    $this->setpnombre($nombre);
-    $this->setpapellido($apellido);
-    $this->setptelefono($telefono);
-    $this->setidviaje($idviaje);
+    $this->setpDocumento($documento);
+    $this->setpNombre($nombre);
+    $this->setpApellido($apellido);
+    $this->setpTelefono($telefono);
+    $this->setIDViaje($idViaje);
   }
 
   /**
@@ -114,20 +116,20 @@ class Pasajero
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaPasajero)) {
         if ($row2 = $base->Registro()) {
-          $this->setpdocumento($documento);
-          $this->setpnombre($row2['pnombre']);
-          $this->setpapellido($row2['papellido']);
-          $this->setptelefono($row2['ptelefono']);
-          $this->setidviaje($row2['idviaje']);
+          $this->setpDocumento($documento);
+          $this->setpNombre($row2['pnombre']);
+          $this->setpApellido($row2['papellido']);
+          $this->setpTelefono($row2['ptelefono']);
+          $this->setIDViaje($row2['idviaje']);
           $seEncontro = true;
         }
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seEncontro;
@@ -146,26 +148,32 @@ class Pasajero
       if ($base->Ejecutar($consultaPersonas)) {
         $arregloPersona = array();
         while ($row2 = $base->Registro()) {
-
+          /*
           $documento = $row2['pdocumento'];
           $nombre = $row2['pnombre'];
           $apellido = $row2['papellido'];
           $telefono = $row2['ptelefono'];
           $idviaje = $row2['idviaje'];
-
+          */
           $pasajero = new Pasajero();
-          $pasajero->cargar($documento, $nombre, $apellido, $telefono, $idviaje);
+          $pasajero->cargar(
+            $row2['pdocumento'],
+            $row2['pnombre'],
+            $row2['papellido'],
+            $row2['ptelefono'],
+            $row2['idviaje']
+          );
           array_push($arregloPersona, $pasajero);
 
         }
 
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $arregloPersona;
@@ -177,7 +185,11 @@ class Pasajero
     $base = new BaseDatos();
     $seInserto = false;
     $consultaInsertar = "INSERT INTO pasajero(pdocumento, pnombre, papellido,  ptelefono, idviaje) 
-				VALUES (" . $this->getpdocumento() . ",'" . $this->getpapellido() . "','" . $this->getpnombre() . "','" . $this->getptelefono() . "','" . $this->getidviaje() . "')";
+				VALUES (" . $this->getpDocumento() . ",'" .
+      $this->getpApellido() . "','" .
+      $this->getpNombre() . "','" .
+      $this->getpTelefono() . "','" .
+      $this->getIDViaje() . "')";
 
     if ($base->Iniciar()) {
 
@@ -186,12 +198,12 @@ class Pasajero
         $seInserto = true;
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
 
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seInserto;
@@ -201,20 +213,20 @@ class Pasajero
   {
     $seModifico = false;
     $base = new BaseDatos();
-    $consultaModifica = "UPDATE pasajero SET pnombre='" . $this->getpnombre() .
-      "',papellido='" . $this->getpapellido() .
-      "' ,ptelefono='" . $this->getptelefono() .
-      "',idviaje='" . $this->getidviaje() .
-      "' WHERE pdocumento=" . $this->getpdocumento();
+    $consultaModifica = "UPDATE pasajero SET pnombre='" . $this->getpNombre() .
+      "',papellido='" . $this->getpApellido() .
+      "' ,ptelefono='" . $this->getpTelefono() .
+      "',idviaje='" . $this->getIDViaje() .
+      "' WHERE pdocumento=" . $this->getpDocumento();
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaModifica)) {
         $seModifico = true;
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seModifico;
@@ -225,15 +237,15 @@ class Pasajero
     $base = new BaseDatos();
     $seElimino = false;
     if ($base->Iniciar()) {
-      $consultaBorra = "DELETE FROM pasajero WHERE pdocumento=" . $this->getpdocumento();
+      $consultaBorra = "DELETE FROM pasajero WHERE pdocumento=" . $this->getpDocumento();
       if ($base->Ejecutar($consultaBorra)) {
         $seElimino = true;
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seElimino;

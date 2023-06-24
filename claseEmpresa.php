@@ -7,75 +7,75 @@ include_once("claseViaje.php");
 
 class Empresa
 {
-    private $idempresa;
-    private $enombre;
-    private $edireccion;
-    private $coleccionviajes;
-    private $mensajeoperacion;
+    private $idEmpresa;
+    private $eNombre;
+    private $eDireccion;
+    private $coleccionViajes;
+    private $mensajeOperacion;
 
     public function __construct()
     {
 
-        $this->idempresa = "";
-        $this->enombre = "";
-        $this->edireccion = "";
-        $this->coleccionviajes = [];
+        $this->idEmpresa = "";
+        $this->eNombre = "";
+        $this->eDireccion = "";
+        $this->coleccionViajes = [];
     }
 
-    public function setidempresa($idempresa)
+    public function setIDEmpresa($idEmpresa)
     {
-        $this->idempresa = $idempresa;
+        $this->idEmpresa = $idEmpresa;
     }
 
-    public function getidempresa()
+    public function getIDEmpresa()
     {
-        return $this->idempresa;
+        return $this->idEmpresa;
     }
 
-    public function setenombre($enombre)
+    public function seteNombre($eNombre)
     {
-        $this->enombre = $enombre;
+        $this->eNombre = $eNombre;
     }
 
-    public function getenombre()
+    public function geteNombre()
     {
-        return $this->enombre;
+        return $this->eNombre;
     }
 
-    public function setedireccion($edireccion)
+    public function seteDireccion($eDireccion)
     {
-        $this->edireccion = $edireccion;
+        $this->eDireccion = $eDireccion;
     }
 
-    public function getedireccion()
+    public function geteDireccion()
     {
-        return $this->edireccion;
+        return $this->eDireccion;
     }
-    public function setcoleccionviajes($coleccionviajes)
+    public function setColeccionViajes($coleccionViajes)
     {
-        $this->coleccionviajes = $coleccionviajes;
-    }
-
-    public function getcoleccionviajes()
-    {
-        return $this->coleccionviajes;
-    }
-    public function setmensajeoperacion($mensajeoperacion)
-    {
-        $this->mensajeoperacion = $mensajeoperacion;
+        $this->coleccionViajes = $coleccionViajes;
     }
 
-    public function getmensajeoperacion()
+    public function getColeccionViajes()
     {
-        return $this->mensajeoperacion;
+        return $this->coleccionViajes;
+    }
+    public function setMensajeOperacion($mensajeOperacion)
+    {
+        $this->mensajeOperacion = $mensajeOperacion;
+    }
+
+    public function getMensajeOperacion()
+    {
+        return $this->mensajeOperacion;
     }
 
     public function __toString()
     {
         return
-            "\nID empresa N°: " . $this->getidempresa() .
-            "\nNombre de la empresa: " . $this->getenombre() .
-            "\nDirección: " . $this->getedireccion() .
+            "\n-----EMPRESA N° " . $this->getIDEmpresa() . "-----" .
+            "\nNombre de la empresa: " . $this->geteNombre() .
+            "\nDirección: " . $this->geteDireccion() .
             "\nLista de viajes: " . $this->mostrarViajes() . "\n";
     }
 
@@ -85,7 +85,7 @@ class Empresa
      */
     public function mostrarViajes()
     {
-        $listaViajes = $this->getcoleccionviajes();
+        $listaViajes = $this->getColeccionViajes();
         $texto = " ";
         for ($i = 0; $i < count($listaViajes); $i++) {
             $texto = $texto . $listaViajes[$i];
@@ -93,38 +93,38 @@ class Empresa
         return $texto;
     }
 
-    public function cargar($enombre, $edireccion, $coleccionviajes)
+    public function cargar($eNombre, $eDireccion, $coleccionViajes)
     {
-        $this->setenombre($enombre);
-        $this->setedireccion($edireccion);
-        $this->setcoleccionviajes($coleccionviajes);
+        $this->seteNombre($eNombre);
+        $this->seteDireccion($eDireccion);
+        $this->setColeccionViajes($coleccionViajes);
     }
 
     /**
      * Recupera los datos de una empresa por su ID
-     * @param int $idempresa
+     * @param int $idEmpresa
      * @return bool
      */
-    public function Buscar($idempresa)
+    public function buscar($idEmpresa)
     {
         $base = new BaseDatos();
-        $consultaViaje = "Select * from empresa where idempresa=" . $idempresa;
+        $consultaViaje = "Select * from empresa where idempresa=" . $idEmpresa;
         $seEncontro = false;
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaViaje)) {
                 if ($row2 = $base->Registro()) {
-                    $this->setidempresa($idempresa);
-                    $this->setenombre($row2['enombre']);
-                    $this->setedireccion($row2['edireccion']);
+                    $this->setIDEmpresa($idEmpresa);
+                    $this->seteNombre($row2['enombre']);
+                    $this->seteDireccion($row2['edireccion']);
                     $seEncontro = true;
                 }
 
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setMensajeOperacion($base->getError());
 
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setMensajeOperacion($base->getError());
 
         }
         return $seEncontro;
@@ -143,23 +143,33 @@ class Empresa
             if ($base->Ejecutar($consultaEmpresas)) {
                 $arregloEmpresas = array();
                 while ($row2 = $base->Registro()) {
+                    /*
                     $idempresa = $row2['idempresa'];
                     $enombre = $row2['enombre'];
                     $edireccion = $row2['edireccion'];
+                    */
+                    $idEmpresa = $row2['idempresa'];
+
+                    $objViaje = new Viaje();
+                    $coleccionViajes = $objViaje->listar("idempresa=" . $idEmpresa);
 
                     $empresa = new Empresa();
-                    $empresa->cargar($idempresa, $enombre, $edireccion);
+                    $empresa->cargar(
+                        $row2['enombre'],
+                        $row2['edireccion'],
+                        $coleccionViajes
+                    );
                     array_push($arregloEmpresas, $empresa);
 
                 }
 
 
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setMensajeOperacion($base->getError());
 
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setMensajeOperacion($base->getError());
 
         }
         return $arregloEmpresas;
@@ -171,8 +181,8 @@ class Empresa
         $base = new BaseDatos();
         $seInserto = false;
         $consultaInsertar = "INSERT INTO empresa(enombre, edireccion) 
-				VALUES ('" . $this->getenombre() . "','" .
-            $this->getedireccion() . "')";
+				VALUES ('" . $this->geteNombre() . "','" .
+            $this->geteDireccion() . "')";
 
         if ($base->Iniciar()) {
 
@@ -181,12 +191,12 @@ class Empresa
                 $seInserto = true;
 
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setMensajeOperacion($base->getError());
 
             }
 
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setMensajeOperacion($base->getError());
 
         }
         return $seInserto;
@@ -196,18 +206,18 @@ class Empresa
     {
         $seModifico = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE empresa SET enombre='" . $this->getenombre() .
-            "',edireccion='" . $this->getedireccion() .
-            "' WHERE idempresa=" . $this->getidempresa();
+        $consultaModifica = "UPDATE empresa SET enombre='" . $this->geteNombre() .
+            "',edireccion='" . $this->geteDireccion() .
+            "' WHERE idempresa=" . $this->getIDEmpresa();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $seModifico = true;
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setMensajeOperacion($base->getError());
 
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setMensajeOperacion($base->getError());
 
         }
         return $seModifico;
@@ -218,15 +228,15 @@ class Empresa
         $base = new BaseDatos();
         $seElimino = false;
         if ($base->Iniciar()) {
-            $consultaBorra = "DELETE FROM empresa WHERE idempresa=" . $this->getidempresa();
+            $consultaBorra = "DELETE FROM empresa WHERE idempresa=" . $this->getIDEmpresa();
             if ($base->Ejecutar($consultaBorra)) {
                 $seElimino = true;
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setMensajeOperacion($base->getError());
 
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setMensajeOperacion($base->getError());
 
         }
         return $seElimino;

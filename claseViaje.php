@@ -6,112 +6,110 @@ include_once("claseResponsableV.php");
 include_once("claseEmpresa.php");
 class Viaje
 {
-  private $idviaje;
-  private $vdestino;
-  private $vcantmaxpasajeros;
-  private $idempresa;
-  private $rnumeroempleado;
-  private $vimporte;
-  private $coleccionpasajeros;
-  private $mensajeoperacion;
+  private $idViaje;
+  private $vDestino;
+  private $vCantMaxPasajeros;
+  private $vImporte;
+  private $coleccionPasajeros;
+  private $objResponsable;
+  private $objEmpresa;
+  private $mensajeOperacion;
 
   public function __construct()
   {
-
-    $this->idviaje = "";
-    $this->vdestino = "";
-    $this->vcantmaxpasajeros = "";
-    $this->idempresa = "";
-    $this->rnumeroempleado = "";
-    $this->vimporte = "";
-    $this->coleccionpasajeros = [];
+    $this->vDestino = "";
+    $this->vCantMaxPasajeros = "";
+    $this->objResponsable = "";
+    $this->objEmpresa = "";
+    $this->vImporte = "";
+    $this->coleccionPasajeros = [];
   }
 
-  public function setidviaje($idviaje)
+  public function setIDViaje($idViaje)
   {
-    $this->idviaje = $idviaje;
+    $this->idViaje = $idViaje;
   }
 
-  public function getidviaje()
+  public function getIDViaje()
   {
-    return $this->idviaje;
+    return $this->idViaje;
   }
 
-  public function setvdestino($vdestino)
+  public function setvDestino($vDestino)
   {
-    $this->vdestino = $vdestino;
+    $this->vDestino = $vDestino;
   }
 
-  public function getvdestino()
+  public function getvDestino()
   {
-    return $this->vdestino;
+    return $this->vDestino;
   }
 
-  public function setvcantmaxpasajeros($vcantmaxpasajeros)
+  public function setvCantMaxPasajeros($vCantMaxPasajeros)
   {
-    $this->vcantmaxpasajeros = $vcantmaxpasajeros;
+    $this->vCantMaxPasajeros = $vCantMaxPasajeros;
   }
 
-  public function getvcantmaxpasajeros()
+  public function getvCantMaxPasajeros()
   {
-    return $this->vcantmaxpasajeros;
+    return $this->vCantMaxPasajeros;
   }
 
-  public function setidempresa($idempresa)
+  public function setObjEmpresa($objEmpresa)
   {
-    $this->idempresa = $idempresa;
+    $this->objEmpresa = $objEmpresa;
   }
-  public function getidempresa()
+  public function getObjEmpresa()
   {
-    return $this->idempresa;
-  }
-
-  public function setrnumeroempleado($rnumeroempleado)
-  {
-    $this->rnumeroempleado = $rnumeroempleado;
-  }
-  public function getrnumeroempleado()
-  {
-    return $this->rnumeroempleado;
+    return $this->objEmpresa;
   }
 
-  public function setvimporte($vimporte)
+  public function setObjResponsable($objResponsable)
   {
-    $this->vimporte = $vimporte;
+    $this->objResponsable = $objResponsable;
   }
-  public function getvimporte()
+  public function getObjResponsable()
   {
-    return $this->vimporte;
-  }
-
-  public function setcoleccionpasajeros($coleccionpasajeros)
-  {
-    $this->coleccionpasajeros = $coleccionpasajeros;
-  }
-  public function getcoleccionpasajeros()
-  {
-    return $this->coleccionpasajeros;
+    return $this->objResponsable;
   }
 
-  public function setmensajeoperacion($mensajeoperacion)
+  public function setvImporte($vImporte)
   {
-    $this->mensajeoperacion = $mensajeoperacion;
+    $this->vImporte = $vImporte;
+  }
+  public function getvImporte()
+  {
+    return $this->vImporte;
   }
 
-  public function getmensajeoperacion()
+  public function setColeccionPasajeros($coleccionPasajeros)
   {
-    return $this->mensajeoperacion;
+    $this->coleccionPasajeros = $coleccionPasajeros;
+  }
+  public function getColeccionPasajeros()
+  {
+    return $this->coleccionPasajeros;
+  }
+
+  public function setMensajeoperacion($mensajeOperacion)
+  {
+    $this->mensajeOperacion = $mensajeOperacion;
+  }
+
+  public function getMensajeOperacion()
+  {
+    return $this->mensajeOperacion;
   }
 
   public function __toString()
   {
     return
-      "\nID viaje N°: " . $this->getidviaje() .
-      "\nDestino: " . $this->getvdestino() .
-      "\nCantidad máxima de pasajeros: " . $this->getvcantmaxpasajeros() .
-      "\nID empresa N° " . $this->getidempresa() .
-      "\nNúmero de empleado a cargo: " . $this->getrnumeroempleado() .
-      "\nImporte del viaje: " . $this->getvimporte() .
+      "\n-----VIAJE N° " . $this->getIDViaje() . "-----" .
+      "\nDestino: " . $this->getvDestino() .
+      "\nCantidad máxima de pasajeros: " . $this->getvCantMaxPasajeros() .
+      "\nPertenece a a la empresa con ID N° " . $this->getObjEmpresa()->getidempresa() .
+      "\nNúmero de empleado a cargo: " . $this->getObjResponsable()->getrNumeroEmpleado() .
+      "\nImporte del viaje: " . $this->getvImporte() .
       "\nLista de pasajeros: " . $this->mostrarPasajeros() . "\n";
   }
 
@@ -121,7 +119,7 @@ class Viaje
    */
   public function mostrarPasajeros()
   {
-    $listaPasajeros = $this->getcoleccionpasajeros();
+    $listaPasajeros = $this->getColeccionPasajeros();
     $texto = " ";
     for ($i = 0; $i < count($listaPasajeros); $i++) {
       $texto = $texto . $listaPasajeros[$i];
@@ -129,47 +127,51 @@ class Viaje
     return $texto;
   }
 
-  public function cargar($destino, $cantmaxpasajeros, $idempresa, $numeroempleado, $importe, $coleccionpasajeros)
+  public function cargar($destino, $cantMaxPasajeros, $objEmpresa, $objResponsable, $importe, $coleccionPasajeros)
   {
-    $this->setvdestino($destino);
-    $this->setvcantmaxpasajeros($cantmaxpasajeros);
-    $this->setidempresa($idempresa);
-    $this->setrnumeroempleado($numeroempleado);
-    $this->setvimporte($importe);
-    $this->setcoleccionpasajeros($coleccionpasajeros);
+    $this->setvDestino($destino);
+    $this->setvCantMaxPasajeros($cantMaxPasajeros);
+    $this->setObjEmpresa($objEmpresa);
+    $this->setObjResponsable($objResponsable);
+    $this->setvImporte($importe);
+    $this->setColeccionPasajeros($coleccionPasajeros);
   }
 
   /**
    * Recupera los datos de un viaje por su ID
-   * @param int $idviaje
+   * @param int $idViaje
    * @return bool
    */
-  public function buscar($idviaje)
+  public function buscar($idViaje)
   {
     $base = new BaseDatos();
-    $consultaViaje = "Select * from viaje where idviaje=" . $idviaje;
+    $consultaViaje = "Select * from viaje where idviaje=" . $idViaje;
     $seEncontro = false;
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaViaje)) {
         if ($row2 = $base->Registro()) {
-          $this->setidviaje($idviaje);
-          $this->setvdestino($row2['vdestino']);
-          $this->setvcantmaxpasajeros($row2['vcantmaxpasajeros']);
-          $this->setidempresa($row2['idempresa']);
-          $this->setrnumeroempleado($row2['rnumeroempleado']);
-          $this->setvimporte($row2['vimporte']);
+          $this->setIDViaje($idViaje);
+          $this->setvDestino($row2['vdestino']);
+          $this->setvCantMaxPasajeros($row2['vcantmaxpasajeros']);
+          $objEmpresa = new Empresa();
+          $objEmpresa->buscar($row2['idempresa']);
+          $this->setObjEmpresa($objEmpresa);
+          $objResponsable = new ResponsableV();
+          $objResponsable->buscar($row2['rnumeroempleado']);
+          $this->setObjResponsable($objResponsable);
+          $this->setvImporte($row2['vimporte']);
           $objpasajero = new Pasajero();
-          $coleccionpasajeros = $objpasajero->listar("idviaje=" . $idviaje);
-          $this->setcoleccionpasajeros($coleccionpasajeros);
+          $coleccionPasajeros = $objpasajero->listar("idviaje=" . $idViaje);
+          $this->setColeccionPasajeros($coleccionPasajeros);
           $seEncontro = true;
         }
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seEncontro;
@@ -188,6 +190,7 @@ class Viaje
       if ($base->Ejecutar($consultaViajes)) {
         $arregloViajes = array();
         while ($row2 = $base->Registro()) {
+          /*
           $idviaje = $row2['idviaje'];
           $destino = $row2['vdestino'];
           $cantmaxpasajeros = $row2['vcantmaxpasajeros'];
@@ -197,9 +200,27 @@ class Viaje
           $objpasajero = new Pasajero();
           $coleccionpasajeros = $objpasajero->listar("idviaje=" . $idviaje);
           $this->setcoleccionpasajeros($coleccionpasajeros);
+          */
+          $idViaje = $row2['idviaje'];
+
+          $objEmpresa = new Empresa();
+          $objEmpresa->buscar($row2['idempresa']);
+
+          $objResponsable = new ResponsableV();
+          $objResponsable->buscar($row2['rnumeroempleado']);
+
+          $objpasajero = new Pasajero();
+          $coleccionPasajeros = $objpasajero->listar("idviaje=" . $idViaje);
 
           $viaje = new Viaje();
-          $viaje->cargar($destino, $cantmaxpasajeros, $idempresa, $numeroempleado, $importe, $coleccionpasajeros);
+          $viaje->cargar(
+            $row2['vdestino'],
+            $row2['vcantmaxpasajeros'],
+            $objEmpresa->getIDEmpresa(),
+            $objResponsable->getrNumeroEmpleado(),
+            $row2['vimporte'],
+            $coleccionPasajeros
+          );
           array_push($arregloViajes, $viaje);
 
         }
@@ -222,26 +243,26 @@ class Viaje
     $base = new BaseDatos();
     $seInserto = false;
     $consultaInsertar = "INSERT INTO viaje(vdestino, vcantmaxpasajeros,  idempresa, rnumeroempleado, vimporte) 
-				VALUES ('" . $this->getvdestino() . "','" .
-      $this->getvcantmaxpasajeros() . "','" .
-      $this->getidempresa() . "','" .
-      $this->getrnumeroempleado() . "','" .
-      $this->getvimporte() . "')";
+				VALUES ('" . $this->getvDestino() . "','" .
+      $this->getvCantMaxPasajeros() . "','" .
+      $this->getObjEmpresa()->getIDEmpresa() . "','" .
+      $this->getObjResponsable()->getrNumeroEmpleado() . "','" .
+      $this->getvImporte() . "')";
 
 
     if ($base->Iniciar()) {
 
       if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-        $this->setidviaje($id);
+        $this->setIDViaje($id);
         $seInserto = true;
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
 
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seInserto;
@@ -251,22 +272,22 @@ class Viaje
   {
     $seModifico = false;
     $base = new BaseDatos();
-    $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvdestino() .
-      "',vcantmaxpasajeros='" . $this->getvcantmaxpasajeros() .
-      "' ,idempresa='" . $this->getidempresa() .
-      "' ,rnumeroempleado='" . $this->getrnumeroempleado() .
-      "' ,vimporte='" . $this->getvimporte() .
-      "' ,colecionpasajeros='" . $this->getcoleccionpasajeros() .
-      "' WHERE idviaje=" . $this->getidviaje();
+    $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvDestino() .
+      "',vcantmaxpasajeros='" . $this->getvCantMaxPasajeros() .
+      "' ,idempresa='" . $this->getObjEmpresa()->getIDEmpresa() .
+      "' ,rnumeroempleado='" . $this->getObjResponsable()->getrNumeroEmpleado() .
+      "' ,vimporte='" . $this->getvImporte() .
+      "' ,colecionpasajeros='" . $this->getColeccionPasajeros() .
+      "' WHERE idviaje=" . $this->getIDViaje();
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaModifica)) {
         $seModifico = true;
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seModifico;
@@ -277,15 +298,15 @@ class Viaje
     $base = new BaseDatos();
     $seElimino = false;
     if ($base->Iniciar()) {
-      $consultaBorra = "DELETE FROM viaje WHERE idviaje=" . $this->getidviaje();
+      $consultaBorra = "DELETE FROM viaje WHERE idviaje=" . $this->getIDViaje();
       if ($base->Ejecutar($consultaBorra)) {
         $seElimino = true;
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seElimino;

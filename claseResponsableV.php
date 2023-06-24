@@ -7,111 +7,112 @@ include_once("claseEmpresa.php");
 
 class ResponsableV
 {
-  private $rnumeroempleado;
-  private $rnumerolicencia;
-  private $rnombre;
-  private $rapellido;
-  private $mensajeoperacion;
+  private $rNumeroEmpleado;
+  private $rNumeroLicencia;
+  private $rNombre;
+  private $rApellido;
+  private $mensajeOperacion;
 
   public function __construct()
   {
 
-    $this->rnumeroempleado = "";
-    $this->rnumerolicencia = "";
-    $this->rnombre = "";
-    $this->rapellido = "";
+    $this->rNumeroEmpleado = "";
+    $this->rNumeroLicencia = "";
+    $this->rNombre = "";
+    $this->rApellido = "";
   }
 
-  public function setrnumeroempleado($rnumeroempleado)
+  public function setrNumeroEmpleado($rNumeroEmpleado)
   {
-    $this->rnumeroempleado = $rnumeroempleado;
+    $this->rNumeroEmpleado = $rNumeroEmpleado;
   }
 
-  public function getrnumeroempleado()
+  public function getrNumeroEmpleado()
   {
-    return $this->rnumeroempleado;
+    return $this->rNumeroEmpleado;
   }
 
-  public function setrnumerolicencia($rnumerolicencia)
+  public function setrNumeroLicencia($rNumeroLicencia)
   {
-    $this->rnumerolicencia = $rnumerolicencia;
+    $this->rNumeroLicencia = $rNumeroLicencia;
   }
 
-  public function getrnumerolicencia()
+  public function getrNumeroLicencia()
   {
-    return $this->rnumerolicencia;
+    return $this->rNumeroLicencia;
   }
 
-  public function setrnombre($rnombre)
+  public function setrNombre($rNombre)
   {
-    $this->rnombre = $rnombre;
+    $this->rNombre = $rNombre;
   }
 
-  public function getrnombre()
+  public function getrNombre()
   {
-    return $this->rnombre;
+    return $this->rNombre;
   }
 
-  public function setrapellido($rapellido)
+  public function setrApellido($rApellido)
   {
-    $this->rapellido = $rapellido;
+    $this->rApellido = $rApellido;
   }
-  public function getrapellido()
+  public function getrApellido()
   {
-    return $this->rapellido;
-  }
-
-  public function setmensajeoperacion($mensajeoperacion)
-  {
-    $this->mensajeoperacion = $mensajeoperacion;
+    return $this->rApellido;
   }
 
-  public function getmensajeoperacion()
+  public function setMensajeOperacion($mensajeOperacion)
   {
-    return $this->mensajeoperacion;
+    $this->mensajeOperacion = $mensajeOperacion;
+  }
+
+  public function getMensajeOperacion()
+  {
+    return $this->mensajeOperacion;
   }
 
   public function __toString()
   {
     return
-      "\nNombre: " . $this->getrnombre() . " " . $this->getrapellido() .
-      "\nEmpleado N° " . $this->getrnumeroempleado() .
-      "\nLicencia N° " . $this->getrnumerolicencia() . "\n";
+      "\n-----EMPLEADO N° " . $this->getrNumeroEmpleado() . "-----" .
+      "\nNombre: " . $this->getrNombre() .
+      "\nApellido: " . $this->getrApellido() .
+      "\nLicencia N° " . $this->getrNumeroLicencia() . "\n";
   }
 
-  public function cargar($rnumerolicencia, $rnombre, $rapellido)
+  public function cargar($rNumeroLicencia, $rNombre, $rApellido)
   {
-    $this->setrnumerolicencia($rnumerolicencia);
-    $this->setrnombre($rnombre);
-    $this->setrapellido($rapellido);
+    $this->setrNumeroLicencia($rNumeroLicencia);
+    $this->setrNombre($rNombre);
+    $this->setrApellido($rApellido);
   }
 
   /**
    * Recupera los datos de un responsable por su número de empleado
-   * @param int $numeroempleado
+   * @param int $numeroEmpleado
    * @return bool
    */
-  public function Buscar($numeroempleado)
+  public function buscar($numeroEmpleado)
   {
     $base = new BaseDatos();
-    $consultaResponsable = "Select * from responsable where rnumeroempleado=" . $numeroempleado;
+    $consultaResponsable = "Select * from responsable where rnumeroempleado=" . $numeroEmpleado;
     $seEncontro = false;
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaResponsable)) {
         if ($row2 = $base->Registro()) {
-          $this->setrnumeroempleado($numeroempleado);
-          $this->setrnumerolicencia($row2['rnumerolicencia']);
-          $this->setrnombre($row2['rnombre']);
-          $this->setrapellido($row2['rapellido']);
+          $this->setrNumeroEmpleado($numeroEmpleado);
+          $this->setrNumeroLicencia($row2['rnumerolicencia']);
+          $this->setrNombre($row2['rnombre']);
+          $this->setrApellido($row2['rapellido']);
           $seEncontro = true;
         }
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seEncontro;
@@ -132,16 +133,19 @@ class ResponsableV
       if ($base->Ejecutar($consultaResponsables)) {
         $arregloResponsable = array();
         while ($row2 = $base->Registro()) {
-
+          /*
           $numeroempleado = $row2['rnumeroempleado'];
           $numerolicencia = $row2['rnumerolicencia'];
           $nombre = $row2['rnombre'];
           $apellido = $row2['rapellido'];
-
+          */
           $responsable = new ResponsableV();
-          $responsable->cargar($numeroempleado, $numerolicencia, $nombre, $apellido);
+          $responsable->cargar(
+            $row2['rnumerolicencia'],
+            $row2['rnombre'],
+            $row2['rapellido']
+          );
           array_push($arregloResponsable, $responsable);
-
         }
 
 
@@ -162,21 +166,21 @@ class ResponsableV
     $base = new BaseDatos();
     $seInserto = false;
     $consultaInsertar = "INSERT INTO responsable(rnumerolicencia, rnombre,  rapellido) 
-				VALUES ('" . $this->getrnumerolicencia() . "','" . $this->getrnombre() . "','" . $this->getrapellido() . "')";
+				VALUES ('" . $this->getrNumeroLicencia() . "','" . $this->getrNombre() . "','" . $this->getrApellido() . "')";
 
     if ($base->Iniciar()) {
 
       if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-        $this->setrnumeroempleado($id);
+        $this->setrNumeroEmpleado($id);
         $seInserto = true;
 
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
 
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seInserto;
@@ -186,19 +190,19 @@ class ResponsableV
   {
     $seModifico = false;
     $base = new BaseDatos();
-    $consultaModifica = "UPDATE responsable SET rnumerolicencia='" . $this->getrnumerolicencia() .
-      "',rnombre='" . $this->getrnombre() .
-      "' ,rapellido='" . $this->getrapellido() .
-      "' WHERE rnumeroempleado=" . $this->getrnumeroempleado();
+    $consultaModifica = "UPDATE responsable SET rnumerolicencia='" . $this->getrNumeroLicencia() .
+      "',rnombre='" . $this->getrNombre() .
+      "' ,rapellido='" . $this->getrApellido() .
+      "' WHERE rnumeroempleado=" . $this->getrNumeroEmpleado();
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaModifica)) {
         $seModifico = true;
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seModifico;
@@ -209,15 +213,15 @@ class ResponsableV
     $base = new BaseDatos();
     $seElimino = false;
     if ($base->Iniciar()) {
-      $consultaBorra = "DELETE FROM responsable WHERE rnumeroempleado=" . $this->getrnumeroempleado();
+      $consultaBorra = "DELETE FROM responsable WHERE rnumeroempleado=" . $this->getrNumeroEmpleado();
       if ($base->Ejecutar($consultaBorra)) {
         $seElimino = true;
       } else {
-        $this->setmensajeoperacion($base->getError());
+        $this->setMensajeOperacion($base->getError());
 
       }
     } else {
-      $this->setmensajeoperacion($base->getError());
+      $this->setMensajeOperacion($base->getError());
 
     }
     return $seElimino;

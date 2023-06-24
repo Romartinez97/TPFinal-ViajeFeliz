@@ -1,37 +1,8 @@
 <?php
 
-include_once("claseViaje.php");
-include_once("clasePasajero.php");
-include_once("claseResponsableV.php");
-
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
-
-/**
- * Muestra el menú de opciones para que el usuario interactue
- * @return int
- */
-function seleccionarOpcion()
-{
-  echo "\n -------- MENÚ --------\n";
-  echo "\n   1) Cargar información de un viaje.";
-  echo "\n   2) Modificar información de un viaje.";
-  echo "\n   3) Ver información de un viaje.";
-  echo "\n   4) Cargar información de una empresa.";
-  echo "\n   5) Modificar información de una empresa.";
-  echo "\n   6) Ver información de una empresa.";
-  echo "\n   7) Salir.";
-  do {
-    echo "\nIngrese un número del 1 al 7 para elegir la opción: ";
-    $opcion = trim(fgets(STDIN));
-    if ($opcion <= 0 || $opcion > 7) {
-      echo "\nPor favor, ingrese un número valido.\n";
-    }
-  } while ($opcion <= 0 || $opcion > 7);
-
-  return $opcion;
-}
 
 /**
  * Función para verificar que la variable ingresada es numérica (entero) en su totalidad.
@@ -61,4 +32,21 @@ function esString()
     $palabra = trim(fgets(STDIN));
   }
   return $palabra;  
+}
+
+/**
+ * Función para validar la opción elegida por el usuario teniendo en cuenta cuántas opciones hay disponibles
+ * @param int $cantidadOpciones
+ * @return int
+ */
+function validarOpcion($cantidadOpciones){
+  do {
+    echo "\nIngrese un número del 1 al ".$cantidadOpciones." para elegir una opción: ";
+    $opcion = esNumero();
+    if ($opcion <= 0 || $opcion > $cantidadOpciones) {
+      echo "\nPor favor, ingrese un número valido (del 1 al ".$cantidadOpciones.")\n";
+    }
+  } while ($opcion <= 0 || $opcion > $cantidadOpciones);
+
+  return $opcion;
 }
