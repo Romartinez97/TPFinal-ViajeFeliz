@@ -16,7 +16,7 @@ class ResponsableV
   public function __construct()
   {
 
-    $this->rNumeroEmpleado = "";
+    $this->rNumeroEmpleado = 0;
     $this->rNumeroLicencia = "";
     $this->rNombre = "";
     $this->rApellido = "";
@@ -80,8 +80,9 @@ class ResponsableV
       "\nLicencia N° " . $this->getrNumeroLicencia() . "\n";
   }
 
-  public function cargar($rNumeroLicencia, $rNombre, $rApellido)
+  public function cargar($rNumeroEmpleado, $rNumeroLicencia, $rNombre, $rApellido)
   {
+    $this -> setrNumeroEmpleado($rNumeroEmpleado);
     $this->setrNumeroLicencia($rNumeroLicencia);
     $this->setrNombre($rNombre);
     $this->setrApellido($rApellido);
@@ -133,14 +134,9 @@ class ResponsableV
       if ($base->Ejecutar($consultaResponsables)) {
         $arregloResponsable = array();
         while ($row2 = $base->Registro()) {
-          /*
-          $numeroempleado = $row2['rnumeroempleado'];
-          $numerolicencia = $row2['rnumerolicencia'];
-          $nombre = $row2['rnombre'];
-          $apellido = $row2['rapellido'];
-          */
           $responsable = new ResponsableV();
           $responsable->cargar(
+            $row2['rnumeroempleado'],
             $row2['rnumerolicencia'],
             $row2['rnombre'],
             $row2['rapellido']

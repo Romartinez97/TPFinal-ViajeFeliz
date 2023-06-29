@@ -21,8 +21,8 @@ function menuEmpresas()
             $nombreEmpresa = esString();
             //Reviso si ya existe una empresa con ese nombre
             $empresa = new Empresa();
-            $listaEmpresas = $empresa->listar("enombre=" . $nombreEmpresa);
-            while (!empty($listaResponsables)) {
+            $listaEmpresas = $empresa->listar("enombre='" . $nombreEmpresa . "'");
+            while (!empty($listaEmpresas)) {
                 echo "\nYa existe una empresa con ese nombre, intente nuevamente.";
                 echo "\nIndique el nombre de la empresa que desea agregar: ";
                 $nombreEmpresa = esString();
@@ -67,10 +67,10 @@ function menuEmpresas()
 
                 case 1:
                     //Modificar el nombre
-                    echo "\Ingrese el nuevo nombre de la empresa: ";
+                    echo "\nIngrese el nuevo nombre de la empresa: ";
                     $eNombreNuevo = esString();
                     //Reviso si ya existe una empresa con ese nombre
-                    $listaEmpresas = $empresa->listar("enombre=" . $eNombreNuevo);
+                    $listaEmpresas = $empresa->listar("enombre='" . $eNombreNuevo . "'");
                     while (!empty($listaResponsables)) {
                         echo "\nYa existe una empresa con ese nombre, intente nuevamente.";
                         echo "\nIndique el nombre de la empresa que desea agregar: ";
@@ -84,7 +84,7 @@ function menuEmpresas()
 
                 case 2:
                     //Modificar la direccion
-                    echo "\Ingrese la nueva dirección de la empresa: ";
+                    echo "\nIngrese la nueva dirección de la empresa: ";
                     $eDireccionNueva = esString();
                     $empresa->seteDireccion($eDireccionNueva);
                     $empresa->modificar();
@@ -96,11 +96,11 @@ function menuEmpresas()
             }
 
         case 3:
-            //Ver lista de todos los pasajeros registrados
-            $pasajero = new Pasajero();
-            $listaPasajeros = $pasajero->listar();
-            for ($i = 0; $i < count($listaPasajeros); $i++) {
-                echo "\n" . $listaPasajeros[$i];
+            //Ver lista de todas las empresas registradas
+            $empresa = new Empresa();
+            $listaEmpresas = $empresa->listar();
+            for ($i = 0; $i < count($listaEmpresas); $i++) {
+                echo "\n" . $listaEmpresas[$i];
             }
             break;
 
@@ -135,7 +135,7 @@ function menuEmpresas()
                 $coleccionViajes = $viaje->listar("idempresa=" . $idEmpresa);
                 for ($i = 0; $i < count($coleccionViajes); $i++) {
                     $unViaje = $coleccionViajes[$i];
-                    $unID = $unViaje->getidviaje();
+                    $unID = $unViaje->getIDViaje();
                     $pasajero = new Pasajero();
                     $coleccionPasajeros = $pasajero->listar("idviaje=" . $unID);
                     for ($j = 0; $j < count($coleccionPasajeros); $j++) {

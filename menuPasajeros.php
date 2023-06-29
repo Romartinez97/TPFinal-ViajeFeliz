@@ -5,7 +5,7 @@ include_once("clasePasajero.php");
 
 function menuPasajeros()
 {
-    echo "\n----------MENÚ DE RESPONSABLES----------\n";
+    echo "\n----------MENÚ DE PASAJEROS----------\n";
     echo "\n 1) Agregar un pasajero a un vuelo.";
     echo "\n 2) Modificar información de un pasajero.";
     echo "\n 3) Ver lista de todos los pasajeros registrados.";
@@ -34,11 +34,11 @@ function menuPasajeros()
             }
             echo "\nIndique el número de documento del pasajero a agregar: ";
             $pDocumento = esNumero();
-            //Reviso si existe un pasajero con ese número de documento en el mismo viaje
+            //Reviso si existe un pasajero con ese número de documento
             $pasajero = new Pasajero();
-            $pasajero->buscar($pDocumento);
-            while ($pasajero->getIDViaje() == $idViaje) {
-                echo "\nYa existe un pasajero con ese número de documento en el viaje, intente nuevamente.";
+            $existePasajero = $pasajero->buscar($pDocumento);
+            while ($existePasajero) {
+                echo "\nYa hay un pasajero con ese número de documento registrado, intente nuevamente.";
                 echo "\nIndique el número de documento del pasajero a agregar: ";
                 $pDocumento = esNumero();
                 $pasajero->buscar($pDocumento);
@@ -87,7 +87,7 @@ function menuPasajeros()
 
                 case 1:
                     //Modificar el nombre
-                    echo "\Ingrese el nuevo nombre del pasajero: ";
+                    echo "\nIngrese el nuevo nombre del pasajero: ";
                     $pNombreNuevo = esString();
                     $pasajero->setpNombre($pNombreNuevo);
                     $pasajero->modificar();
@@ -96,7 +96,7 @@ function menuPasajeros()
 
                 case 2:
                     //Modificar el apellido
-                    echo "\Ingrese el nuevo apellido del pasajero: ";
+                    echo "\nIngrese el nuevo apellido del pasajero: ";
                     $pApellidoNuevo = esString();
                     $pasajero->setpApellido($pApellidoNuevo);
                     $pasajero->modificar();
@@ -105,7 +105,7 @@ function menuPasajeros()
 
                 case 3:
                     //Modificar el número de teléfono
-                    echo "\Ingrese el nuevo número de teléfono del pasajero: ";
+                    echo "\nIngrese el nuevo número de teléfono del pasajero: ";
                     $pTelefonoNuevo = esNumero();
                     $pasajero->setpTelefono($pTelefonoNuevo);
                     $pasajero->modificar();

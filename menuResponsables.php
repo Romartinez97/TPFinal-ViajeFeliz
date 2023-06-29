@@ -1,7 +1,7 @@
 <?php
 
 include_once("Funciones.php");
-include_once("claseResponsable.php");
+include_once("claseResponsables.php");
 
 //Armar un menú con todas las opciones referidas a los responsables:
 //- Agregar un responsable (verificar que no se repita uno ya creado, puede ser verificando el número de licencia)
@@ -39,7 +39,7 @@ function menuResponsables()
             //Cargo y e inserto al responsable
             $responsableV->cargar($rNumeroLicencia, $rNombre, $rApellido);
             $responsableV->insertar();
-            echo "\n.Se creó correctamente al nuevo responsable.";
+            echo "\nSe creó correctamente al nuevo responsable.";
             echo "\n" . $responsableV;
             break;
 
@@ -47,7 +47,7 @@ function menuResponsables()
             //Modificar información de un responsable
             $responsableV = new ResponsableV();
             $listaResponsables = $responsableV->listar();
-            for ($i = 1; $i < count($listaResponsables); $i++) {
+            for ($i = 0; $i < count($listaResponsables); $i++) {
                 echo $listaResponsables[$i];
             }
             echo "\nIndique el número de empleado del responsable que desea modificar: ";
@@ -55,8 +55,7 @@ function menuResponsables()
             //Reviso si el empleado existe       
             $empleadoEncontrado = $responsableV->buscar($idEmpleado);
             while (!$empleadoEncontrado) {
-                echo "\nEl número ingresado no pertenece al número de empleado de ninguno de los responsables existentes en la empresa.
-            Intente nuevamente. ";
+                echo "\nEl número ingresado no pertenece al número de empleado de ninguno de los responsables existentes en la empresa. Intente nuevamente. ";
                 $idEmpleado = esNumero();
                 $empleadoEncontrado = $responsableV->buscar($idEmpleado);
             }
@@ -74,7 +73,7 @@ function menuResponsables()
 
                 case 1:
                     //Modificar el nombre
-                    echo "\Ingrese el nuevo nombre del responsable: ";
+                    echo "\nIngrese el nuevo nombre del responsable: ";
                     $rNombreNuevo = esString();
                     $responsableV->setrNombre($rNombreNuevo);
                     $responsableV->modificar();
@@ -83,7 +82,7 @@ function menuResponsables()
 
                 case 2:
                     //Modificar el apellido
-                    echo "\Ingrese el nuevo apellido del responsable: ";
+                    echo "\nIngrese el nuevo apellido del responsable: ";
                     $rApellidoNuevo = esString();
                     $responsableV->setrApellido($rApellidoNuevo);
                     $responsableV->modificar();
@@ -92,7 +91,7 @@ function menuResponsables()
 
                 case 3:
                     //Modificar el número de licencia
-                    echo "\Ingrese el nuevo número de licencia del responsable: ";
+                    echo "\nIngrese el nuevo número de licencia del responsable: ";
                     $rNumeroLicenciaNuevo = esNumero();
                     //Reviso si no existe un empleado con el mismo número de licencia
                     $listaResponsables = $responsableV->listar("rnumerolicencia=" . $rNumeroLicenciaNuevo);

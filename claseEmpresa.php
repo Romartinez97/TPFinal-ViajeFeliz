@@ -16,7 +16,7 @@ class Empresa
     public function __construct()
     {
 
-        $this->idEmpresa = "";
+        $this->idEmpresa = 0;
         $this->eNombre = "";
         $this->eDireccion = "";
         $this->coleccionViajes = [];
@@ -93,8 +93,9 @@ class Empresa
         return $texto;
     }
 
-    public function cargar($eNombre, $eDireccion, $coleccionViajes)
+    public function cargar($idEmpresa, $eNombre, $eDireccion, $coleccionViajes)
     {
+        $this->setIDEmpresa($idEmpresa);
         $this->seteNombre($eNombre);
         $this->seteDireccion($eDireccion);
         $this->setColeccionViajes($coleccionViajes);
@@ -143,11 +144,6 @@ class Empresa
             if ($base->Ejecutar($consultaEmpresas)) {
                 $arregloEmpresas = array();
                 while ($row2 = $base->Registro()) {
-                    /*
-                    $idempresa = $row2['idempresa'];
-                    $enombre = $row2['enombre'];
-                    $edireccion = $row2['edireccion'];
-                    */
                     $idEmpresa = $row2['idempresa'];
 
                     $objViaje = new Viaje();
@@ -155,6 +151,7 @@ class Empresa
 
                     $empresa = new Empresa();
                     $empresa->cargar(
+                        $row2['idempresa'],
                         $row2['enombre'],
                         $row2['edireccion'],
                         $coleccionViajes
@@ -187,7 +184,7 @@ class Empresa
         if ($base->Iniciar()) {
 
             if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-                $this->setidempresa($id);
+                $this->setIDEmpresa($id);
                 $seInserto = true;
 
             } else {

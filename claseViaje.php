@@ -17,6 +17,7 @@ class Viaje
 
   public function __construct()
   {
+    $this->idViaje = 0;
     $this->vDestino = "";
     $this->vCantMaxPasajeros = "";
     $this->objResponsable = "";
@@ -103,14 +104,17 @@ class Viaje
 
   public function __toString()
   {
+    $objResponsable = new ResponsableV();
+    $objEmpresa = new Empresa();
+
     return
       "\n-----VIAJE N° " . $this->getIDViaje() . "-----" .
       "\nDestino: " . $this->getvDestino() .
       "\nCantidad máxima de pasajeros: " . $this->getvCantMaxPasajeros() .
-      "\nPertenece a a la empresa con ID N° " . $this->getObjEmpresa()->getidempresa() .
-      "\nNúmero de empleado a cargo: " . $this->getObjResponsable()->getrNumeroEmpleado() .
+      "\nPertenece a la empresa con ID N° " . $objEmpresa->getIDEmpresa() .
+      "\nNúmero de empleado a cargo: " . $objResponsable->getrNumeroEmpleado() .
       "\nImporte del viaje: " . $this->getvImporte() .
-      "\nLista de pasajeros: " . $this->mostrarPasajeros() . "\n";
+      "\nLista de pasajeros: \n" . $this->mostrarPasajeros() . "\n";
   }
 
   /**
@@ -127,8 +131,9 @@ class Viaje
     return $texto;
   }
 
-  public function cargar($destino, $cantMaxPasajeros, $objEmpresa, $objResponsable, $importe, $coleccionPasajeros)
+  public function cargar($idViaje, $destino, $cantMaxPasajeros, $objEmpresa, $objResponsable, $importe, $coleccionPasajeros)
   {
+    $this->setIDViaje($idViaje);
     $this->setvDestino($destino);
     $this->setvCantMaxPasajeros($cantMaxPasajeros);
     $this->setObjEmpresa($objEmpresa);
@@ -150,6 +155,7 @@ class Viaje
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaViaje)) {
         if ($row2 = $base->Registro()) {
+
           $this->setIDViaje($idViaje);
           $this->setvDestino($row2['vdestino']);
           $this->setvCantMaxPasajeros($row2['vcantmaxpasajeros']);
@@ -163,6 +169,31 @@ class Viaje
           $objpasajero = new Pasajero();
           $coleccionPasajeros = $objpasajero->listar("idviaje=" . $idViaje);
           $this->setColeccionPasajeros($coleccionPasajeros);
+
+
+          //Usar cargar
+          /*
+          $objEmpresa = new Empresa();
+          $objEmpresa->buscar($row2['idempresa']);
+
+          $objResponsable = new ResponsableV();
+          $objResponsable->buscar($row2['rnumeroempleado']);
+
+          $objpasajero = new Pasajero();
+          $coleccionPasajeros = $objpasajero->listar("idviaje=" . $idViaje);
+
+          $viaje = new Viaje();
+          $viaje->cargar(
+            $row2['idviaje'],
+            $row2['vdestino'],
+            $row2['vcantmaxpasajeros'],
+            $objEmpresa,
+            $objResponsable,
+            $row2['vimporte'],
+            $coleccionPasajeros
+          );
+          */
+
           $seEncontro = true;
         }
 
@@ -185,22 +216,11 @@ class Viaje
     if ($condicion != "") {
       $consultaViajes = $consultaViajes . ' where ' . $condicion;
     }
-    $consultaViajes .= "order by vdestino";
+    $consultaViajes .= " order by vdestino ";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaViajes)) {
         $arregloViajes = array();
         while ($row2 = $base->Registro()) {
-          /*
-          $idviaje = $row2['idviaje'];
-          $destino = $row2['vdestino'];
-          $cantmaxpasajeros = $row2['vcantmaxpasajeros'];
-          $idempresa = $row2['idempresa'];
-          $numeroempleado = $row2['rnumeroempleado'];
-          $importe = $row2['vimporte'];
-          $objpasajero = new Pasajero();
-          $coleccionpasajeros = $objpasajero->listar("idviaje=" . $idviaje);
-          $this->setcoleccionpasajeros($coleccionpasajeros);
-          */
           $idViaje = $row2['idviaje'];
 
           $objEmpresa = new Empresa();
@@ -214,10 +234,11 @@ class Viaje
 
           $viaje = new Viaje();
           $viaje->cargar(
+            $row2['idviaje'],
             $row2['vdestino'],
             $row2['vcantmaxpasajeros'],
-            $objEmpresa->getIDEmpresa(),
-            $objResponsable->getrNumeroEmpleado(),
+            $objEmpresa,
+            $objResponsable,
             $row2['vimporte'],
             $coleccionPasajeros
           );
@@ -277,8 +298,8 @@ class Viaje
       "' ,idempresa='" . $this->getObjEmpresa()->getIDEmpresa() .
       "' ,rnumeroempleado='" . $this->getObjResponsable()->getrNumeroEmpleado() .
       "' ,vimporte='" . $this->getvImporte() .
-      "' ,colecionpasajeros='" . $this->getColeccionPasajeros() .
       "' WHERE idviaje=" . $this->getIDViaje();
+
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaModifica)) {
         $seModifico = true;

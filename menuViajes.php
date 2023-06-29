@@ -33,7 +33,7 @@ function menuViajes()
                     echo "\n-----LISTA DE RESPONSABLES-----";
                     $responsable = new ResponsableV();
                     $listaResponsables = $responsable->listar();
-                    for ($i = 1; $i < count($listaResponsables); $i++) {
+                    for ($i = 0; $i < count($listaResponsables); $i++) {
                         echo $listaResponsables[$i];
                     }
                     echo "\nIngrese el número del responsable que desea asignar al viaje: ";
@@ -46,6 +46,7 @@ function menuViajes()
                         $idEmpleado = esNumero();
                         $empleadoEncontrado = $responsable->buscar($idEmpleado);
                     }
+                    break;
 
                 case 2:
                     //Crear un responsable y asignarlo
@@ -76,7 +77,7 @@ function menuViajes()
             $empresa = new Empresa();
             $listaEmpresas = $empresa->listar();
             for ($i = 1; $i < count($listaEmpresas); $i++) {
-                echo $listaEmpresas[$i];
+                echo $listaEmpresas[$i]; //No está mostrando las empresas
             }
             echo "\n¿A qué empresa desea asignar el viaje? Ingrese el ID de la misma: ";
             $idEmpresa = esNumero();
@@ -244,7 +245,7 @@ function menuViajes()
                     $unPasajero->eliminar();
                 }
                 $viaje->eliminar();
-                echo "\nEl viaje ha sido eliminada.";
+                echo "\nEl viaje ha sido eliminado.";
             }
             echo "\nVolviendo al menú anterior...";
             break;

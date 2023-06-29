@@ -141,20 +141,14 @@ class Pasajero
     $base = new BaseDatos();
     $consultaPersonas = "Select * from pasajero ";
     if ($condicion != "") {
-      $consultaPersonas = $consultaPersonas . ' where ' . $condicion;
+      $consultaPersonas .= ' where ' . $condicion;
     }
-    $consultaPersonas .= " order by papellido";
+    $consultaPersonas .= " order by papellido ";   
     if ($base->Iniciar()) {
       if ($base->Ejecutar($consultaPersonas)) {
         $arregloPersona = array();
         while ($row2 = $base->Registro()) {
-          /*
-          $documento = $row2['pdocumento'];
-          $nombre = $row2['pnombre'];
-          $apellido = $row2['papellido'];
-          $telefono = $row2['ptelefono'];
-          $idviaje = $row2['idviaje'];
-          */
+
           $pasajero = new Pasajero();
           $pasajero->cargar(
             $row2['pdocumento'],
@@ -186,8 +180,8 @@ class Pasajero
     $seInserto = false;
     $consultaInsertar = "INSERT INTO pasajero(pdocumento, pnombre, papellido,  ptelefono, idviaje) 
 				VALUES (" . $this->getpDocumento() . ",'" .
-      $this->getpApellido() . "','" .
       $this->getpNombre() . "','" .
+      $this->getpApellido() . "','" .
       $this->getpTelefono() . "','" .
       $this->getIDViaje() . "')";
 

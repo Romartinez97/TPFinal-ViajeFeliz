@@ -7,32 +7,30 @@ include_once("menuPasajeros.php");
 include_once("menuViajes.php");
 include_once("menuEmpresas.php");
 
-
-
 // Carga de datos
 /*
 $objEmpresa = new Empresa();
-$objEmpresa->cargar("Chevallier", "Avenida Argentina 123", []);
+$objEmpresa->cargar(28, "Chevallier", "Avenida Argentina 123", []);
 $objEmpresa->insertar();
 
 $objResponsable1 = new ResponsableV();
-$objResponsable1->cargar(123, "Pedro", "López");
+$objResponsable1->cargar(60, 123, "Pablo", "Rey");
 $objResponsable1->insertar();
 
 $objResponsable2 = new ResponsableV();
-$objResponsable2->cargar(324, "Enzo", "Pérez");
+$objResponsable2->cargar(61, 324, "Enzo", "Pérez");
 $objResponsable2->insertar();
 
 $objViaje1 = new Viaje();
-$objViaje1->cargar("Buenos Aires", 50, $objEmpresa->getidempresa(), $objResponsable1->getrnumeroempleado(), 15000, []);
+$objViaje1->cargar(30, "Buenos Aires", 50, $objEmpresa, $objResponsable1, 15000, []);
 $objViaje1->insertar();
 
 $objViaje2 = new Viaje();
-$objViaje2->cargar("Mendoza", 50, $objEmpresa->getidempresa(), $objResponsable1->getrnumeroempleado(), 20000, []);
+$objViaje2->cargar(31, "Mendoza", 50, $objEmpresa, $objResponsable1, 20000, []);
 $objViaje2->insertar();
 
 $objViaje3 = new Viaje();
-$objViaje3->cargar("Salta", 50, $objEmpresa->getidempresa(), $objResponsable2->getrnumeroempleado(), 25000, []);
+$objViaje3->cargar(32,"Salta", 50, $objEmpresa, $objResponsable2, 25000, []);
 $objViaje3->insertar();
 
 $objPasajero1 = new Pasajero();
@@ -76,15 +74,19 @@ do {
   switch ($opcion) {
     case 1:
       menuResponsables();
+      break;
 
     case 2:
       menuPasajeros();
+      break;
 
     case 3:
       menuViajes();
+      break;
 
     case 4:
       menuEmpresas();
+      break;
 
     default:
       break;
