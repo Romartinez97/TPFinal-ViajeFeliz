@@ -32,7 +32,7 @@ function menuEmpresas()
             echo "\nIndique la dirección de la empresa: ";
             $direccionEmpresa = trim(fgets(STDIN));
             //Cargo y e inserto a la empresa
-            $empresa->cargar($nombreEmpresa, $direccionEmpresa, []);
+            $empresa->cargar("", $nombreEmpresa, $direccionEmpresa, []);
             $empresa->insertar();
             echo "\n.Se creó correctamente a la nueva empresa.";
             echo "\n" . $empresa;

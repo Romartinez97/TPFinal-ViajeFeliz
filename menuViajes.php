@@ -66,7 +66,7 @@ function menuViajes()
                     echo "\nIndique el apellido del responsable: ";
                     $rApellido = esString();
                     //Cargo y e inserto al responsable
-                    $responsable->cargar($rNumeroLicencia, $rNombre, $rApellido);
+                    $responsable->cargar("", $rNumeroLicencia, $rNombre, $rApellido);
                     $responsable->insertar();
                     echo "\n.Se creó correctamente al nuevo responsable.";
                     echo "\n" . $responsable;
@@ -90,7 +90,7 @@ function menuViajes()
             }
             //Cargo y e inserto al pasajero
             $viaje = new Viaje();
-            $viaje->cargar($vDestino, $vCantMaxPasajeros, $empresa, $responsable, $vImporte, []);
+            $viaje->cargar("",$vDestino, $vCantMaxPasajeros, $empresa, $responsable, $vImporte, []);
             $viaje->insertar();
             echo "\nSe creó correctamente el nuevo viaje.";
             echo "\n" . $viaje;

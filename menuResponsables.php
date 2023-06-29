@@ -37,7 +37,7 @@ function menuResponsables()
             echo "\nIndique el apellido del responsable: ";
             $rApellido = esString();
             //Cargo y e inserto al responsable
-            $responsableV->cargar($rNumeroLicencia, $rNombre, $rApellido);
+            $responsableV->cargar("", $rNumeroLicencia, $rNombre, $rApellido);
             $responsableV->insertar();
             echo "\nSe creó correctamente al nuevo responsable.";
             echo "\n" . $responsableV;
